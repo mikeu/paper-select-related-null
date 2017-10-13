@@ -1,5 +1,31 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-{{welcome-page}}
-{{!-- Feel free to remove this! --}}
-
-{{outlet}}
+<h1>New Post</h1>
+{{#paper-form as |form|}}
+  {{#paper-select
+      label="Author"
+      required=true
+      options=authors
+      selected=post.author
+      onChange=(action (mut post.author))
+      as |author|
+  }}
+    {{author.name}}
+  {{/paper-select}}
+  {{#paper-select
+      label="Category"
+      required=true
+      options=categories
+      selected=(if post.category.id post.category)
+      onChange=(action (mut post.category))
+      as |category|
+  }}
+    {{category.name}}
+  {{/paper-select}}
+  {{#form.submit-button
+      primary=true
+      raised=true
+      disabled=form.isInvalid
+      data-test-save-entity-button=true
+  }}
+    Create post
+  {{/form.submit-button}}
+{{/paper-form}}
