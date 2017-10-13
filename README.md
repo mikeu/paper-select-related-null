@@ -1,8 +1,31 @@
 # paper-select-related-null
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This repo contains an app demonstrating an issue in
+[Ember Paper](https://github.com/miguelcobain/ember-paper), in which
+an empty Ember Data relationship is not recognized by a `{{paper-select}}`
+component as being `null`. In particular, this prevents required elements
+from actually being required, both while filling in the form and when
+calculating its validity.
 
+In this example, both the author and category `{{paper-select}}` components
+include `required=true`:
+
+![Demonstration of issue](/screenshots/demo.gif?raw=true "Demo")
+
+Author does not have an asterisk in its label, nor does it turn red and receive
+the notice that "This is required" when it is blurred without a selection.
+Most importantly, not selecting an author does not prevent the button from
+activating and the form being submitted.
+
+The difference is that the author component is passed
+```hbs
+selected=post.author
+```
+while the category component is passed
+```hbs
+selected=(if post.category.id post.category)
+```
+which is initially `null`.
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
